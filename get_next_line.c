@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:34:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/02 16:25:01 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/02 18:50:09 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,23 @@ char	*get_next_line(int fd)
 	static char	*stash;
 	static char	*buffer;
 	int			nb_read;
-	unsigned int	i;
 
-	stash = "";
+	stash = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!stash)
+		return (NULL);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	nb_read = -1;
-	while (nb_read != 0 && ft_search_char(stash) != 1)
+	nb_read = 1;
+	while ((ft_search_char(stash) != 1) && nb_read > 0)
 	{
 		nb_read = read(fd, buffer, BUFFER_SIZE);
-		if (nb_read == -1)
+		if (nb_read <= -1)
 			return (NULL);
-		if (nb_read < BUFFER_SIZE)
-			buffer[nb_read] = '\0';
-		// tmp = ft_search_char(buffer);
 		stash = ft_strjoin(stash, buffer);
 	}
 	stash = ft_trim_from_start(stash);
-	printf("\nstash = %s\n", stash + 0);
+	free(buffer);
 	return (stash);
 }
 
@@ -62,6 +60,7 @@ int	main(void)
 	if (fd < 0)
 		return (-1);
 	test = get_next_line(fd);
+	printf("%s", test);
 	free(test);
 	close(fd);
 	return (0);

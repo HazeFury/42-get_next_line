@@ -6,13 +6,13 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:07:52 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/02 16:24:23 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/02 18:48:18 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+static size_t	ft_strlen(const char *s)
 {
 	unsigned int	i;
 
@@ -46,8 +46,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 		i++;
 		k++;
 	}
-	if (!s1[0])
-		free(s1);
+	free(s1);
 	res[i] = '\0';
 	return (res);
 }
@@ -63,15 +62,19 @@ char	*ft_trim_from_start(char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != '\n')
-			i++;
+		if (str[i] == '\n')
+			break ;
+		i++;
 	}
 	k = 0;
 	res = malloc((i + 1) * sizeof(char));
 	if (!res)
 		return (NULL);
-	while (k < i)
-		res[k] = str[k++];
+	while (k < i + 1)
+	{
+		res[k] = str[k];
+		k++;
+	}
 	res[k] = '\0';
 	free(str);
 	return (res);
