@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:07:52 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/03 15:16:45 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/03 20:07:19 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 		i++;
 		k++;
 	}
-	// free(s1);
+	free(s1);
 	res[i] = '\0';
 	return (res);
 }
@@ -79,9 +79,10 @@ char	*ft_trim_from_start(char *str)
 
 	if (!str)
 		return (NULL);
-	i = ft_search_char(str);
-	if (i == 0)
-		i = 1;
+	if (ft_search_char(str) > -1)
+		i = ft_search_char(str) + 1;
+	else
+		i = ft_strlen(str); 
 	res = malloc((i + 1) * sizeof(char));
 	k = 0;
 	if (!res)
@@ -91,8 +92,6 @@ char	*ft_trim_from_start(char *str)
 		res[k] = str[k];
 		k++;
 	}
-	res[k] = '\n';
-	k++;
 	res[k] = '\0';
 	return (res);
 }
