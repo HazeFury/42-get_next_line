@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:34:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/02 18:50:09 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/03 12:29:49 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,31 @@ static int	ft_search_char(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\n')
-			return (1);
+			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*stash;
-	static char	*buffer;
+	char		*buffer;
 	int			nb_read;
 
-	stash = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!stash)
-		return (NULL);
+		stash = ft_strdup("");
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
 	nb_read = 1;
-	while ((ft_search_char(stash) != 1) && nb_read > 0)
+	while ((ft_search_char(stash) == -1) && nb_read > 0)
 	{
 		nb_read = read(fd, buffer, BUFFER_SIZE);
+		// buffer[nb_read] = '\0';
 		if (nb_read <= -1)
 			return (NULL);
+		// printf("buffer : '%s'\n", buffer);
 		stash = ft_strjoin(stash, buffer);
 	}
 	stash = ft_trim_from_start(stash);
