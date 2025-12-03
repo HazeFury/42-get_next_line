@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:32:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/02 17:54:24 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/03 10:56:30 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@
 char	*get_next_line(int fd);
 char	*ft_strjoin(char *s1, char const *s2);
 char	*ft_trim_from_start(char *str);
+char	*ft_strdup(const char *s);
 
 #endif
