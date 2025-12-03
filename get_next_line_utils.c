@@ -6,13 +6,13 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:07:52 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/03 11:31:41 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/03 15:16:45 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static size_t	ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
 	unsigned int	i;
 
@@ -79,15 +79,11 @@ char	*ft_trim_from_start(char *str)
 
 	if (!str)
 		return (NULL);
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '\n')
-			break ;
-		i++;
-	}
+	i = ft_search_char(str);
+	if (i == 0)
+		i = 1;
+	res = malloc((i + 1) * sizeof(char));
 	k = 0;
-	res = malloc((i + 2) * sizeof(char));
 	if (!res)
 		return (NULL);
 	while (k < i)
@@ -98,6 +94,5 @@ char	*ft_trim_from_start(char *str)
 	res[k] = '\n';
 	k++;
 	res[k] = '\0';
-	free(str);
 	return (res);
 }

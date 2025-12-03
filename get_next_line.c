@@ -6,13 +6,13 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:34:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/03 12:29:49 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/03 15:29:32 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	ft_search_char(char *str)
+int	ft_search_char(char *str)
 {
 	int	i;
 
@@ -26,11 +26,28 @@ static int	ft_search_char(char *str)
 	return (-1);
 }
 
+char	*ft_resize_stash(char *str)
+{
+	int		i;
+	char	*new_stash;
+
+	i = ft_search_char(str);
+	// printf("longeur du reste : %zu\n", ft_strlen(str + (i + 1)));
+	if (ft_strlen(str + (i + 1)) > 0)
+		new_stash = ft_strdup(str + (i + 1));
+	else
+		new_stash = ft_strdup("");
+	// printf("new stash : '%s'\n", new_stash);
+	free(str);
+	return (new_stash);	
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*stash;
 	char		*buffer;
 	int			nb_read;
+	char		*line;
 
 	if (!stash)
 		stash = ft_strdup("");
@@ -47,22 +64,32 @@ char	*get_next_line(int fd)
 		// printf("buffer : '%s'\n", buffer);
 		stash = ft_strjoin(stash, buffer);
 	}
-	stash = ft_trim_from_start(stash);
+	line = ft_trim_from_start(stash);
+	stash = ft_resize_stash(stash);
+	// printf("=>  line : '%s'", line);
+	// printf("=> stash : '%s'\n", stash);
+
 	free(buffer);
-	return (stash);
+	return (line);
 }
 
 int	main(void)
 {
 	int		fd;
 	char	*test;
+	int		i;
 
+	i = 0;
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
 		return (-1);
-	test = get_next_line(fd);
-	printf("%s", test);
-	free(test);
+	while (i < 8)
+	{
+		test = get_next_line(fd);
+		printf("%s", test);
+		free(test);
+		i++;
+	}
 	close(fd);
 	return (0);
 }
