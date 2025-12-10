@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:07:52 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/03 20:07:19 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:45:50 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ char	*ft_trim_from_start(char *str)
 	int		k;
 	char	*res;
 
-	if (!str)
+	if (!str || str[0] == '\0')
 		return (NULL);
 	if (ft_search_char(str) > -1)
 		i = ft_search_char(str) + 1;
