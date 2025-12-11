@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:34:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/11 11:32:42 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:59:34 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ char	*ft_resize_stash(char *str)
 	{
 		new_stash = ft_strdup(str + (i + 1));
 		if (!new_stash)
+		{
+			free(str);
 			return (NULL);
+		}
 	}
 	else
 		new_stash = NULL;
@@ -55,8 +58,6 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!stash)
-		stash = ft_strdup("");
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
@@ -75,6 +76,11 @@ char	*get_next_line(int fd)
 			break ;
 		buffer[nb_read] = '\0';
 		stash = ft_strjoin(stash, buffer);
+		if (!stash)
+		{
+			free(buffer);
+			return (NULL);
+		}
 	}
 	line = ft_trim_from_start(stash);
 	stash = ft_resize_stash(stash);
