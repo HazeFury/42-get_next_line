@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:34:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/10 18:45:51 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:15:32 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_next_line(int fd)
 	int			nb_read;
 	char		*line;
 
-	if (!fd || fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!stash)
 		stash = ft_strdup("");
