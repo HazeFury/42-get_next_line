@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:07:52 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/10 18:45:50 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:24:56 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,15 @@ char	*ft_strjoin(char *s1, char const *s2)
 	int		i;
 	int		k;
 
-	i = 0;
-	res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!s1)
+		i = 0;
+	else 
+		i = ft_strlen(s1);
+	res = malloc((i + ft_strlen(s2) + 1) * sizeof(char));
 	if (res == NULL)
 		return (NULL);
-	while (s1[i] != '\0')
+	i = 0;
+	while (s1 && s1[i] != '\0')
 	{
 		res[i] = s1[i];
 		i++;

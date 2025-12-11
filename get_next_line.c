@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:34:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/11 11:15:32 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/11 11:32:42 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_search_char(char *str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (-1);
 	while (str[i])
 	{
 		if (str[i] == '\n')
@@ -64,9 +66,9 @@ char	*get_next_line(int fd)
 		nb_read = read(fd, buffer, BUFFER_SIZE);
 		if (nb_read == -1)
 		{
+			free(stash);
 			stash = NULL;
 			free(buffer);
-			free(stash);
 			return (NULL);	
 		}
 		if (nb_read == 0)
