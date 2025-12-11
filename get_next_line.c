@@ -12,9 +12,9 @@
 
 #include "get_next_line.h"
 
-int	ft_search_char(char *str)
+int ft_search_char(char *str)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (!str)
@@ -28,11 +28,11 @@ int	ft_search_char(char *str)
 	return (-1);
 }
 
-void	ft_resize_stash(char *str, char *tmp)
+void ft_resize_stash(char *str, char *tmp)
 {
-	int		i;
-	char	*new_stash;
-	int		k;
+	int i;
+	char *new_stash;
+	int k;
 
 	k = 0;
 	i = ft_search_char(str);
@@ -48,9 +48,9 @@ void	ft_resize_stash(char *str, char *tmp)
 		}
 	}
 	else
-	tmp[0] = '\0';
+		tmp[0] = '\0';
 	free(str);
-	return ;	
+	return;
 }
 
 // char	*get_next_line(int fd)
@@ -65,9 +65,9 @@ void	ft_resize_stash(char *str, char *tmp)
 // 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 // 	if (!buffer)
 // 	{
-// 		if (stash) 
+// 		if (stash)
 //     	{
-//         	free(stash); 
+//         	free(stash);
 //         	stash = NULL;
 // 		}
 // 		return (NULL);
@@ -84,7 +84,7 @@ void	ft_resize_stash(char *str, char *tmp)
 // 				free(stash);
 // 				stash = NULL;
 // 				free(buffer);
-// 				return (NULL);	
+// 				return (NULL);
 // 			}
 // 			buffer[nb_read] = '\0';
 // 			stash = ft_strjoin(stash, buffer);
@@ -109,56 +109,56 @@ void	ft_resize_stash(char *str, char *tmp)
 // 	return (line);
 // }
 
-char    *get_next_line(int fd)
+char *get_next_line(int fd)
 {
-    static char *stash;
-	static char	tmp[BUFFER_SIZE + 1];
-    char        *buffer[BUFFER_SIZE + 1];
-    int         nb_read;
-    char        *line;
+	char *tmp;
+	static char stash[BUFFER_SIZE + 1];
+	char *buffer[BUFFER_SIZE + 1];
+	int nb_read;
+	char *line;
 
-    if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
-        return (NULL);
-    nb_read = 1;
-    while (ft_search_char(stash) == -1 && nb_read > 0)
-    {
-        nb_read = read(fd, buffer, BUFFER_SIZE);
-        if (nb_read == -1)
-        {
-            if (stash)
-            {
-                free(stash);
-                stash = NULL;
-            }
-            return (NULL);
-        }
-        if (nb_read > 0)
-        {
-            buffer[nb_read] = '\0';
-            stash = ft_strjoin(stash, buffer);
-            if (!stash)
-                return (NULL);
-            if (ft_search_char(buffer) != -1)
-                break ;
-        }
-    }
-    free(buffer);
-    line = ft_trim_from_start(stash);
-    if (!line)
-    {
-        free(stash);
-        stash = NULL;
-    }
-    else
-        ft_resize_stash(stash, tmp);
-    return (line);
+	if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
+		return (NULL);
+	nb_read = 1;
+	while (ft_search_char(tmp) == -1 && nb_read > 0)
+	{
+		nb_read = read(fd, buffer, BUFFER_SIZE);
+		if (nb_read == -1)
+		{
+			if (tmp)
+			{
+				free(tmp);
+				tmp = NULL;
+			}
+			return (NULL);
+		}
+		if (nb_read > 0)
+		{
+			buffer[nb_read] = '\0';
+			tmp = ft_strjoin(tmp, buffer);
+			if (!tmp)
+				return (NULL);
+			if (ft_search_char(buffer) != -1)
+				break;
+		}
+	}
+	free(buffer);
+	line = ft_trim_from_start(tmp);
+	if (!line)
+	{
+		free(tmp);
+		tmp = NULL;
+	}
+	else
+		ft_resize_stash(tmp, stash);
+	return (line);
 }
 
-int	main(void)
+int main(void)
 {
-	int		fd;
-	char	*test;
-	int		i;
+	int fd;
+	char *test;
+	int i;
 
 	i = 0;
 	fd = open("test.txt", O_RDONLY);
