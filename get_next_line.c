@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:34:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/11 16:02:42 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:56:22 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,29 @@ int	ft_search_char(char *str)
 	return (-1);
 }
 
-char	*ft_resize_stash(char *str)
+void	ft_resize_stash(char *str, char *tmp)
 {
 	int		i;
 	char	*new_stash;
+	int		k;
 
+	k = 0;
 	i = ft_search_char(str);
 	if (i != -1)
 	{
-		new_stash = ft_strdup(str + (i + 1));
-		if (!new_stash)
+		while (k < BUFFER_SIZE + 1)
 		{
-			free(str);
-			return (NULL);
+			if (str[i + 1] != '\0')
+				tmp[k] = str[i + 1];
+			else
+				tmp[k] = '\0';
+			k++;
 		}
 	}
 	else
-		new_stash = NULL;
+	tmp[0] = '\0';
 	free(str);
-	return (new_stash);	
+	return ;	
 }
 
 // char	*get_next_line(int fd)
@@ -108,29 +112,19 @@ char	*ft_resize_stash(char *str)
 char    *get_next_line(int fd)
 {
     static char *stash;
-    char        *buffer;
+	static char	tmp[BUFFER_SIZE + 1];
+    char        *buffer[BUFFER_SIZE + 1];
     int         nb_read;
     char        *line;
 
     if (fd < 0 || fd > 1024 || BUFFER_SIZE <= 0)
         return (NULL);
-    buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-    if (!buffer)
-    {
-        if (stash)
-        {
-            free(stash);
-            stash = NULL;
-        }
-        return (NULL);
-    }
     nb_read = 1;
     while (ft_search_char(stash) == -1 && nb_read > 0)
     {
         nb_read = read(fd, buffer, BUFFER_SIZE);
         if (nb_read == -1)
         {
-            free(buffer);
             if (stash)
             {
                 free(stash);
@@ -143,10 +137,7 @@ char    *get_next_line(int fd)
             buffer[nb_read] = '\0';
             stash = ft_strjoin(stash, buffer);
             if (!stash)
-            {
-                free(buffer);
                 return (NULL);
-            }
             if (ft_search_char(buffer) != -1)
                 break ;
         }
@@ -159,7 +150,7 @@ char    *get_next_line(int fd)
         stash = NULL;
     }
     else
-        stash = ft_resize_stash(stash); // Nettoyage normal
+        ft_resize_stash(stash, tmp);
     return (line);
 }
 
