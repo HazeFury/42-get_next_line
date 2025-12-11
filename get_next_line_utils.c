@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:07:52 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/10 18:45:50 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/11 16:06:39 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,29 +46,31 @@ char	*ft_strdup(const char *s)
 
 char	*ft_strjoin(char *s1, char const *s2)
 {
-	char	*res;
-	int		i;
-	int		k;
+    char    *res;
+    size_t  len1;
+    size_t  len2;
+    int     i;
+    int     j;
 
-	i = 0;
-	res = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (res == NULL)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		res[i] = s1[i];
-		i++;
-	}
-	k = 0;
-	while (s2[k] != '\0')
-	{
-		res[i] = s2[k];
-		i++;
-		k++;
-	}
-	free(s1);
-	res[i] = '\0';
-	return (res);
+    len1 = ft_strlen(s1);
+    len2 = ft_strlen(s2);
+    res = malloc((len1 + len2 + 1) * sizeof(char));
+    if (!res)
+    {
+        free(s1);
+        return (NULL);
+    }
+    i = -1;
+    while (++i < (int)len1)
+        res[i] = s1[i];
+    j = 0;
+    while (j < (int)len2)
+    {
+        res[i++] = s2[j++]; 
+    }
+    res[i] = '\0';
+    free(s1);
+    return (res);
 }
 
 char	*ft_trim_from_start(char *str)
@@ -79,14 +81,15 @@ char	*ft_trim_from_start(char *str)
 
 	if (!str || str[0] == '\0')
 		return (NULL);
-	if (ft_search_char(str) > -1)
-		i = ft_search_char(str) + 1;
+	i = ft_search_char(str);
+	if (i > -1)
+		i = i + 1;
 	else
 		i = ft_strlen(str); 
 	res = malloc((i + 1) * sizeof(char));
-	k = 0;
 	if (!res)
 		return (NULL);
+	k = 0;
 	while (k < i)
 	{
 		res[k] = str[k];
