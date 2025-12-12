@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 10:34:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/12 17:47:43 by marberge         ###   ########.fr       */
+/*   Created: 2025/12/12 16:04:36 by marberge          #+#    #+#             */
+/*   Updated: 2025/12/12 17:46:17 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_search_char(char *str)
 {
@@ -65,7 +65,7 @@ void	ft_set_null_and_free(char *str_to_free)
 
 char	*ft_read_buffer_loop(int fd, char *stash, char *tmp, char *buffer)
 {
-	int				nb_read;
+	int	nb_read;
 
 	nb_read = 1;
 	while (ft_search_char(tmp) == -1 && nb_read > 0)
@@ -93,20 +93,20 @@ char	*ft_read_buffer_loop(int fd, char *stash, char *tmp, char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char		stash[BUFFER_SIZE + 1];
+	static char		stash[FD_MAX][BUFFER_SIZE + 1];
 	char			*tmp;
 	char			*buffer;
 	char			*line;
 
 	tmp = NULL;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= FD_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	if (ft_strlen(stash) > 0)
-		tmp = ft_strjoin(tmp, stash);
-	tmp = ft_read_buffer_loop(fd, stash, tmp, buffer);
+	if (ft_strlen(stash[fd]) > 0)
+		tmp = ft_strjoin(tmp, stash[fd]);
+	tmp = ft_read_buffer_loop(fd, stash[fd], tmp, buffer);
 	free(buffer);
 	if (!tmp)
 		return (NULL);
@@ -114,7 +114,7 @@ char	*get_next_line(int fd)
 	if (!line)
 		ft_set_null_and_free(tmp);
 	else
-		ft_resize_stash(tmp, stash);
+		ft_resize_stash(tmp, stash[fd]);
 	return (line);
 }
 
