@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:32:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/12 11:56:26 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/12 14:55:46 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ void	ft_bzero(void *s, size_t n);
 int		ft_search_char(char *str);
 void	ft_resize_stash(char *tmp, char *stash);
 size_t	ft_strlen(const char *s);
+char	*read_buffer_loop(int fd, char *stash, char *tmp, char *buffer);
 
 #endif
