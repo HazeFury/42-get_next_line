@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 10:34:46 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/12 15:04:36 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/12 15:42:23 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,14 @@ void	ft_resize_stash(char *tmp, char *stash)
 	return ;
 }
 
-char	*read_buffer_loop(int fd, char *stash, char *tmp, char *buffer)
+void	ft_set_null_and_free(char *str_to_free)
+{
+	free(str_to_free);
+	str_to_free = NULL;
+	return ;
+}
+
+char	*ft_read_buffer_loop(int fd, char *stash, char *tmp, char *buffer)
 {
 	int				nb_read;
 
@@ -67,10 +74,7 @@ char	*read_buffer_loop(int fd, char *stash, char *tmp, char *buffer)
 		if (nb_read == -1)
 		{
 			if (tmp)
-			{
-				free(tmp);
-				tmp = NULL;
-			}
+				ft_set_null_and_free(tmp);
 			ft_bzero(stash, BUFFER_SIZE + 1);
 			return (NULL);
 		}
@@ -102,16 +106,13 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (ft_strlen(stash) > 0)
 		tmp = ft_strjoin(tmp, stash);
-	tmp = read_buffer_loop(fd, stash, tmp, buffer);
+	tmp = ft_read_buffer_loop(fd, stash, tmp, buffer);
 	free(buffer);
 	if (!tmp)
 		return (NULL);
 	line = ft_trim_from_start(tmp);
 	if (!line)
-	{
-		free(tmp);
-		tmp = NULL;
-	}
+		ft_set_null_and_free(tmp);
 	else
 		ft_resize_stash(tmp, stash);
 	return (line);
