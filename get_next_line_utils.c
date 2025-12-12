@@ -6,7 +6,7 @@
 /*   By: marberge <marberge@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:07:52 by marberge          #+#    #+#             */
-/*   Updated: 2025/12/11 16:06:39 by marberge         ###   ########.fr       */
+/*   Updated: 2025/12/12 12:01:08 by marberge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,19 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strdup(const char *s)
+void	ft_bzero(void *s, size_t n)
 {
-	int		i;
-	int		len;
-	char	*res;
+	size_t			i;
+	unsigned char	*str;
 
+	str = (unsigned char *)s;
 	i = 0;
-	len = ft_strlen(s);
-	res = malloc((len + 1) * sizeof(char));
-	if (res == NULL)
-		return (NULL);
-	while (i < len)
+	while (i < n)
 	{
-		res[i] = s[i];
+		str[i] = '\0';
 		i++;
 	}
-	res[i] = '\0';
-	return (res);
+	return ;
 }
 
 char	*ft_strjoin(char *s1, char const *s2)
