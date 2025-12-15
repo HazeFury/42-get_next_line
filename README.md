@@ -70,7 +70,7 @@ This section details the specific implementation choices made for this project, 
 To balance performance, stability, and memory safety, this project uses two distinct memory areas.
 
 1.  **The Static Stash (Data/BSS Segment)**
-    * Defined as `static char stash[MAX_FD][BUFFER_SIZE + 1]`.
+    * Defined as `static char stash[BUFFER_SIZE + 1]`.
     * **Role:** Persistence. It stores the "leftover" characters from the previous read that belong to the next line.
     * **Why Static?** Unlike a pointer that requires manual freeing at the very end (risking "Still Reachable" leaks), a static array is automatically managed by the program's lifecycle in the BSS segment.
 
